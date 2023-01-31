@@ -19,4 +19,4 @@
 1. The team member should be informed of the breach and given a chance to explain their actions to the rest of the group.
 2. If the team member's actions are deemed to be in breach of the code of conduct, the team member should be given a warning.
 3. The rest of the group will meet and deliberate over which punishment the team member found in breach will have to complete.
-4. Repeated failure will result in a meating with the module delivery team about further disciplinary action.
+4. Repeatedly breaching the code of conduct will result in a meating with the module delivery team about further disciplinary action.
