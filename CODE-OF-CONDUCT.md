@@ -15,19 +15,8 @@
 
 8. Acknowledgment of contributions: Acknowledge and give credit to all group members for their contributions to the project.
 
-
-## Assorted punishments for breaking the code of conduct:
-"Coffee Run": Whoever fails to meet a deadline must buy coffee for the entire group.
-
-"Sing it Out": Whoever fails to attend a meeting must serenade the group with a song of their choice at the next meeting.
-
-"The Chore Wheel": Create a chore wheel and assign different tasks, such as cleaning the group's workspace, to group members who fail to meet the codes of conduct.
-
-"The Truth or Dare Challenge": Whoever fails to meet a deadline must choose between answering a personal question truthfully or completing a dare that is assigned by the group.
-
-"The Secret Santa Swap": Whoever fails to meet a deadline must swap their assigned task with another group member for the next deadline.
-
 ### If a team member is found to be in breach of the code of conduct, the following steps should be taken:
 1. The team member should be informed of the breach and given a chance to explain their actions to the rest of the group.
 2. If the team member's actions are deemed to be in breach of the code of conduct, the team member should be given a warning.
 3. The rest of the group will meet and deliberate over which punishment the team member found in breach will have to complete.
+4. Repeated failure will result in a meating with the module delivery team about further disciplinary action.
