@@ -1,0 +1,13 @@
+version: '3'
+services:
+  # Build the app
+  app:
+    build: .
+
+  # Build the DB from the database folder using provided backup
+  db:
+    build: db/.
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "33060:3306"
