@@ -10,7 +10,7 @@ public class CountryLanguage {
     // Ideally this would be using a HashMap<String, Country> but we haven't got that far yet
     private static final List<List<String>> cache = new ArrayList<>();
 
-    public static List<List<String>> getAllCountryLangs() throws SQLException {
+    public static List<List<String>> getAllCountryLangs(DB db) throws SQLException {
         if (!cache.isEmpty()) return cache;
         System.out.println("Cache empty, loading from database");
 
@@ -18,19 +18,20 @@ public class CountryLanguage {
 
         String query = "SELECT * FROM countrylanguage";
 
-        ResultSet results = DB.runQuery(query);
+        try (ResultSet results = db.runQuery(query)) {
 
-        if (results == null) return countryLangs;
+            if (results == null) return countryLangs;
 
-        while (results.next()) {
-            List<String> countryLang = new ArrayList<>();
+            while (results.next()) {
+                List<String> countryLang = new ArrayList<>();
 
-            countryLang.add(results.getString("CountryCode"));
-            countryLang.add(results.getString("Language"));
-            countryLang.add(results.getString("IsOfficial"));
-            countryLang.add(results.getString("Percentage"));
+                countryLang.add(results.getString("CountryCode"));
+                countryLang.add(results.getString("Language"));
+                countryLang.add(results.getString("IsOfficial"));
+                countryLang.add(results.getString("Percentage"));
 
-            countryLangs.add(countryLang);
+                countryLangs.add(countryLang);
+            }
         }
         cache.clear();
         cache.addAll(countryLangs);

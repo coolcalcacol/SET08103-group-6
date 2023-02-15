@@ -1,4 +1,5 @@
 FROM openjdk:17
-COPY ./target/seMethods.jar /tmp
+# Temporarily rename output file
+COPY ./target/seMethods-0.1.0.1.jar /tmp
 WORKDIR /tmp
-ENTRYPOINT ["java", "-jar", "seMethods.jar", "db:3306"]
+ENTRYPOINT ["java", "-jar", "seMethods-0.1.0.1.jar", "db:3306"]
