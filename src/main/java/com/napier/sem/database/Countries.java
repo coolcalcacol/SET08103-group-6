@@ -1,53 +1,69 @@
 package com.napier.sem.database;
 
+import com.napier.sem.report.CountryReport;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Countries {
-
-    // Ideally this would be using a Country class, but we haven't got that far yet
-    private static final List<List<String>> cache = new ArrayList<>();
-
-    public static List<List<String>> getAllCountries(DB db) throws SQLException {
-        if (!cache.isEmpty()) return cache;
-        System.out.println("Cache empty, loading from database");
-
-        List<List<String>> countries = new ArrayList<>();
-
-        String query = "SELECT * FROM country";
+    private static List<CountryReport> parseResults(DB db, String query) throws SQLException {
+        List<CountryReport> countries = new ArrayList<>();
 
         try (ResultSet results = db.runQuery(query)) {
-
             if (results == null) return countries;
-
             while (results.next()) {
-                List<String> country = new ArrayList<>();
-
-                country.add(results.getString("Code"));
-                country.add(results.getString("Name"));
-                country.add(results.getString("Continent"));
-                country.add(results.getString("Region"));
-                country.add(results.getString("SurfaceArea"));
-                country.add(results.getString("IndepYear"));
-                country.add(results.getString("Population"));
-                country.add(results.getString("LifeExpectancy"));
-                country.add(results.getString("GNP"));
-                country.add(results.getString("GNPOld"));
-                country.add(results.getString("LocalName"));
-                country.add(results.getString("GovernmentForm"));
-                country.add(results.getString("HeadOfState"));
-                country.add(results.getString("Capital"));
-                country.add(results.getString("Code2"));
-
-                countries.add(country);
+                CountryReport report = new CountryReport(
+                        results.getString("Name"),
+                        results.getString("Population"),
+                        results.getString("Code"),
+                        results.getString("Continent"),
+                        results.getString("Region"),
+                        results.getString("Capital")
+                );
+                countries.add(report);
             }
         }
-        cache.clear();
-        cache.addAll(countries);
-
         return countries;
     }
+    public static List<CountryReport> getAllCountriesByPopulation(DB db, int limit) throws SQLException {
+        String query = "SELECT * FROM country ORDER BY Population DESC";
+        if(limit > 0) query += " LIMIT " + limit;
+        return parseResults(db, query);
+    }
 
+    public static HashMap<String, List<CountryReport>> getCountriesInContinentByPopulation(DB db, int limit) throws SQLException {
+        String query = "SELECT Name, Population, Code, Continent, Region, Capital, row_number() over (partition by Continent order by Population desc) as continent_rank " +
+                "FROM country " +
+                "ORDER BY Continent, Population DESC";
+        if(limit > 0) query = "SELECT * FROM (" + query + ") AS T WHERE continent_rank <= " + limit;
+
+        List<CountryReport> results = parseResults(db, query);
+        HashMap<String, List<CountryReport>> continentMap = new HashMap<>();
+        for (CountryReport report : results) {
+            if (!continentMap.containsKey(report.continent)) {
+                continentMap.put(report.continent, new ArrayList<>());
+            }
+            continentMap.get(report.continent).add(report);
+        }
+        return continentMap;
+    }
+
+    public static HashMap<String, List<CountryReport>> getCountriesInRegionByPopulation(DB db, int limit) throws SQLException {
+        String query = "SELECT Name, Population, Code, Continent, Region, Capital, row_number() over (partition by Region order by Population desc) as region_rank " +
+                "FROM country " +
+                "ORDER BY Region, Population DESC";
+        if(limit > 0) query = "SELECT * FROM (" + query + ") AS T WHERE region_rank <= " + limit;
+        List<CountryReport> results = parseResults(db, query);
+        HashMap<String, List<CountryReport>> regionMap = new HashMap<>();
+        for (CountryReport report : results) {
+            if (!regionMap.containsKey(report.region)) {
+                regionMap.put(report.region, new ArrayList<>());
+            }
+            regionMap.get(report.region).add(report);
+        }
+        return regionMap;
+    }
 }
