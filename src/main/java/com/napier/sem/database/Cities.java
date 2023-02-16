@@ -1,5 +1,6 @@
 package com.napier.sem.database;
 
+import com.napier.sem.report.CityReport;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,36 +8,21 @@ import java.util.List;
 
 public class Cities {
 
-    // Ideally this would be using a City class but we haven't got that far yet
-    private static final List<List<String>> cache = new ArrayList<>();
+    private static List<CityReport> parseResults(DB db, String query) throws SQLException {
+        List<CityReport> countries = new ArrayList<>();
 
-    public static List<List<String>> getAllCities() throws SQLException {
-        if (!cache.isEmpty()) return cache;
-        System.out.println("Cache empty, loading from database");
-
-        List<List<String>> cities = new ArrayList<>();
-
-        String query = "SELECT * FROM city";
-
-        ResultSet results = DB.runQuery(query);
-
-        if (results == null) return cities;
-
-        while (results.next()) {
-            List<String> city = new ArrayList<>();
-
-            city.add(results.getString("ID"));
-            city.add(results.getString("Name"));
-            city.add(results.getString("CountryCode"));
-            city.add(results.getString("District"));
-            city.add(results.getString("Population"));
-
-            cities.add(city);
+        try (ResultSet results = db.runQuery(query)) {
+            if (results == null) return countries;
+            while (results.next()) {
+                CityReport report = new CityReport(
+                        results.getString("Name"),
+                        results.getString("Population"),
+                        results.getString("District"),
+                        results.getString("Country")
+                );
+                countries.add(report);
+            }
         }
-        cache.clear();
-        cache.addAll(cities);
-
-        return cities;
+        return countries;
     }
-
 }
