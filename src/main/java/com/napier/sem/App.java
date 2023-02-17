@@ -79,6 +79,32 @@ public class App {
             printWithDelays("...\n", 200);
             HashMap<String, List<CityReport>> citiesInDistrict = Cities.getCitiesInDistrictByPopulation(db, -1);
 
+            // The top N populated cities in the world where N is provided by the user.
+            System.out.print("12. Computing the top " + n + " populated cities in the world");
+            printWithDelays("...\n", 200);
+            List<CityReport> topNCities = Cities.getAllCitiesByPopulation(db, n);
+
+            // The top N populated cities in a continent where N is provided by the user.
+            System.out.print("13. Computing the top " + n + " populated cities in a continent");
+            printWithDelays("...\n", 200);
+            HashMap<String, List<CityReport>> topNCitiesInContinent = Cities.getCitiesInContinentByPopulation(db, n);
+
+            // The top N populated cities in a region where N is provided by the user.
+            System.out.print("14. Computing the top " + n + " populated cities in a region");
+            printWithDelays("...\n", 200);
+            HashMap<String, List<CityReport>> topNCitiesInRegion = Cities.getCitiesInRegionByPopulation(db, n);
+
+            // The top N populated cities in a country where N is provided by the user.
+            System.out.print("15. Computing the top " + n + " populated cities in a country");
+            printWithDelays("...\n", 200);
+            HashMap<String, List<CityReport>> topNCitiesInCountry = Cities.getCitiesInCountryByPopulation(db, n);
+
+            // The top N populated cities in a district where N is provided by the user.
+            System.out.print("16. Computing the top " + n + " populated cities in a district");
+            printWithDelays("...\n", 200);
+            HashMap<String, List<CityReport>> topNCitiesInDistrict = Cities.getCitiesInDistrictByPopulation(db, n);
+
+
             //TODO: Determine what output method we are to use for all reports
 
 
@@ -151,6 +177,38 @@ public class App {
             for (String district : citiesInDistrict.keySet()) {
                 System.out.println("\n\n\nDistrict: " + district);
                 for (CityReport report : citiesInDistrict.get(district)) System.out.println("\t" + report.name + " - " + report.population);
+            }
+
+            // The top N populated cities in the world where N is provided by the user.
+            System.out.println("\n\n\nThe top " + n + " populated cities in the world");
+            for (CityReport report : topNCities) System.out.println(report.name + " - " + report.population);
+
+            // The top N populated cities in a continent where N is provided by the user.
+            System.out.println("\n\n\nThe top " + n + " populated cities in a continent");
+            for (String continent : topNCitiesInContinent.keySet()) {
+                System.out.println("\n\n\nContinent: " + continent);
+                for (CityReport report : topNCitiesInContinent.get(continent)) System.out.println("\t" + report.name + " - " + report.population);
+            }
+
+            // The top N populated cities in a region where N is provided by the user.
+            System.out.println("\n\n\nThe top " + n + " populated cities in a region");
+            for (String region : topNCitiesInRegion.keySet()) {
+                System.out.println("\n\n\nRegion: " + region);
+                for (CityReport report : topNCitiesInRegion.get(region)) System.out.println("\t" + report.name + " - " + report.population);
+            }
+
+            // The top N populated cities in a country where N is provided by the user.
+            System.out.println("\n\n\nThe top " + n + " populated cities in a country");
+            for (String country : topNCitiesInCountry.keySet()) {
+                System.out.println("\n\n\nCountry: " + country);
+                for (CityReport report : topNCitiesInCountry.get(country)) System.out.println("\t" + report.name + " - " + report.population);
+            }
+
+            // The top N populated cities in a district where N is provided by the user.
+            System.out.println("\n\n\nThe top " + n + " populated cities in a district");
+            for (String district : topNCitiesInDistrict.keySet()) {
+                System.out.println("\n\n\nDistrict: " + district);
+                for (CityReport report : topNCitiesInDistrict.get(district)) System.out.println("\t" + report.name + " - " + report.population);
             }
 
         } catch (Exception e) {
