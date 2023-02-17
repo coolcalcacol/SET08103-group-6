@@ -1,7 +1,9 @@
 package com.napier.sem;
 
+import com.napier.sem.database.Cities;
 import com.napier.sem.database.Countries;
 import com.napier.sem.database.DB;
+import com.napier.sem.report.CityReport;
 import com.napier.sem.report.CountryReport;
 
 import java.util.HashMap;
@@ -52,6 +54,30 @@ public class App {
             printWithDelays("...\n", 200);
             HashMap<String, List<CountryReport>> topNCountriesInRegion = Countries.getCountriesInRegionByPopulation(db, n);
 
+            // All the cities in the world organised by largest population to smallest.
+            System.out.print("7. Computing all the cities in the world organised by largest population to smallest");
+            printWithDelays("...\n", 200);
+            List<CityReport> cities = Cities.getAllCitiesByPopulation(db, -1);
+
+            // All the cities in a continent organised by largest population to smallest.
+            System.out.print("8. Computing all the cities in a continent organised by largest population to smallest");
+            printWithDelays("...\n", 200);
+            HashMap<String, List<CityReport>> citiesInContinent = Cities.getCitiesInContinentByPopulation(db, -1);
+
+            // All the cities in a region organised by largest population to smallest.
+            System.out.print("9. Computing all the cities in a region organised by largest population to smallest");
+            printWithDelays("...\n", 200);
+            HashMap<String, List<CityReport>> citiesInRegion = Cities.getCitiesInRegionByPopulation(db, -1);
+
+            // All the cities in a country organised by largest population to smallest.
+            System.out.print("10. Computing all the cities in a country organised by largest population to smallest");
+            printWithDelays("...\n", 200);
+            HashMap<String, List<CityReport>> citiesInCountry = Cities.getCitiesInCountryByPopulation(db, -1);
+
+            // All the cities in a district organised by largest population to smallest.
+            System.out.print("11. Computing all the cities in a district organised by largest population to smallest");
+            printWithDelays("...\n", 200);
+            HashMap<String, List<CityReport>> citiesInDistrict = Cities.getCitiesInDistrictByPopulation(db, -1);
 
             //TODO: Determine what output method we are to use for all reports
 
@@ -95,7 +121,38 @@ public class App {
                 for (CountryReport report : topNCountriesInRegion.get(region)) System.out.println("\t" + report.name + " - " + report.population);
             }
 
-            //
+            // All the cities in the world organised by largest population to smallest.
+            System.out.println("\n\n\nAll the cities in the world organised by largest population to smallest.");
+            for (CityReport report : cities) System.out.println(report.name + " - " + report.population);
+
+            // All the cities in a continent organised by largest population to smallest.
+            System.out.println("\n\n\nAll the cities in a continent organised by largest population to smallest.");
+            for (String continent : citiesInContinent.keySet()) {
+                System.out.println("\n\n\nContinent: " + continent);
+                for (CityReport report : citiesInContinent.get(continent)) System.out.println("\t" + report.name + " - " + report.population);
+            }
+
+            // All the cities in a region organised by largest population to smallest.
+            System.out.println("\n\n\nAll the cities in a region organised by largest population to smallest.");
+            for (String region : citiesInRegion.keySet()) {
+                System.out.println("\n\n\nRegion: " + region);
+                for (CityReport report : citiesInRegion.get(region)) System.out.println("\t" + report.name + " - " + report.population);
+            }
+
+            // All the cities in a country organised by largest population to smallest.
+            System.out.println("\n\n\nAll the cities in a country organised by largest population to smallest.");
+            for (String country : citiesInCountry.keySet()) {
+                System.out.println("\n\n\nCountry: " + country);
+                for (CityReport report : citiesInCountry.get(country)) System.out.println("\t" + report.name + " - " + report.population);
+            }
+
+            // All the cities in a district organised by largest population to smallest.
+            System.out.println("\n\n\nAll the cities in a district organised by largest population to smallest.");
+            for (String district : citiesInDistrict.keySet()) {
+                System.out.println("\n\n\nDistrict: " + district);
+                for (CityReport report : citiesInDistrict.get(district)) System.out.println("\t" + report.name + " - " + report.population);
+            }
+
         } catch (Exception e) {
             // On error, print error message
             System.out.println(e.getMessage());
