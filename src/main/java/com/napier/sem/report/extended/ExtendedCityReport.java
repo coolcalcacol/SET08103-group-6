@@ -1,4 +1,6 @@
-package com.napier.sem.report;
+package com.napier.sem.report.extended;
+
+import com.napier.sem.report.CityReport;
 
 public class ExtendedCityReport extends CityReport {
     public String continent;
