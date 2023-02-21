@@ -1,13 +1,11 @@
 package com.napier.sem.report;
 
 public class PopulationReport extends BaseReport{
-    public String country;
-    public String continent;
-    public String region;
-    public PopulationReport(String region, String continent, String country,String name, String population) {
+    public String populationInCities;
+    public String populationOutCities;
+    public PopulationReport(String name, String population, String populationInCities, String populationOutCities) {
         super(name, population);
-        this.country = country;
-        this.continent = continent;
-        this.region = region;
+        this.populationInCities = populationInCities;
+        this.populationOutCities = populationOutCities;
     }
 }
