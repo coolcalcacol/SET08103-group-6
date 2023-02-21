@@ -19,6 +19,7 @@ public class App {
 
         // Create a scanner to read user input where required
         Scanner userInput = new Scanner(System.in);
+
         try {
             // Connect to database
             db.connect();
