@@ -95,7 +95,7 @@ jobs:
             docker-compose up -d db
             
             # Run the integration tests
-            mvn -Dtest=com.napier.sem.AppIntegrationTest test          
+            mvn -Dtest=com.napier.sem.AppIntegrationTests test          
             
             # Stop and remove the database container, and auto-created network
             docker-compose down
