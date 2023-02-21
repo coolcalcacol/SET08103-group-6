@@ -65,7 +65,7 @@ jobs:
             distribution: 'adopt'
 
       -   name: Unit Tests
-          run: mvn -Dtest=com.napier.sem.AppTests test
+          run: mvn -Dtest=com.napier.sem.AppUnitTests test
 
       -   name: Upload results to CodeCov
           uses: codecov/codecov-action@v2
