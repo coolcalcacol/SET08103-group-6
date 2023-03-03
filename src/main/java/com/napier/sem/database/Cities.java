@@ -13,9 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Cities {
-    private static final String baseSelect = "SELECT city.Name, city.Population, city.District, country.Name AS Country, country.Continent, country.Region";
-    private static final String baseFrom = " FROM city INNER JOIN country ON country.Code=city.CountryCode ";
-    private static final String baseWhere = "WHERE city.ID=country.Capital ";
 
     private static List<ExtendedCityReport> parseExtendedCityResults(DB db, String query) throws SQLException {
         List<ExtendedCityReport> countries = new ArrayList<>();
@@ -77,14 +74,19 @@ public class Cities {
     }
 
     public static List<CityReport> getAllCitiesByPopulation(DB db, int limit) throws SQLException {
-        String query = baseSelect + baseFrom + "ORDER BY city.Population DESC";
+        String query = "SELECT city.Name, city.Population, city.District, country.Name AS Country, country.Continent, country.Region " +
+                "FROM city " +
+                "INNER JOIN country ON country.Code=city.CountryCode " +
+                "ORDER BY Population DESC";
         if(limit > 0) query += " LIMIT " + limit;
         return new ArrayList<>(parseExtendedCityResults(db, query));
     }
 
     public static HashMap<String, List<CityReport>> getCitiesInContinentByPopulation(DB db, int limit) throws SQLException {
-        String query = baseSelect + ", ROW_NUMBER() OVER (PARTITION BY Continent ORDER BY city.Population DESC) AS continent_rank" +
-                baseFrom + "ORDER BY country.Continent, city.Population DESC";
+        String query = "SELECT city.Name, city.Population, city.District, country.Name AS Country, country.Continent, country.Region, row_number() over (partition by Continent order by Population desc) as continent_rank " +
+                "FROM city " +
+                "INNER JOIN country ON country.Code=city.CountryCode " +
+                "ORDER BY Continent, Population DESC";
         if(limit > 0) query = "SELECT * FROM (" + query + ") AS T WHERE continent_rank <= " + limit;
 
         List<ExtendedCityReport> results = parseExtendedCityResults(db, query);
@@ -99,8 +101,10 @@ public class Cities {
     }
 
     public static HashMap<String, List<CityReport>> getCitiesInRegionByPopulation(DB db, int limit) throws SQLException {
-        String query = baseSelect + ", ROW_NUMBER() OVER (PARTITION BY Region ORDER BY city.Population DESC) AS region_rank" +
-                baseFrom + "ORDER BY country.Region, city.Population DESC";
+        String query = "SELECT city.Name, city.Population, city.District, country.Name AS Country, country.Continent, country.Region, row_number() over (partition by Region order by Population desc) as region_rank " +
+                "FROM city " +
+                "INNER JOIN country ON country.Code=city.CountryCode " +
+                "ORDER BY Region, Population DESC";
         if(limit > 0) query = "SELECT * FROM (" + query + ") AS T WHERE region_rank <= " + limit;
 
         List<ExtendedCityReport> results = parseExtendedCityResults(db, query);
@@ -115,8 +119,10 @@ public class Cities {
     }
 
     public static HashMap<String, List<CityReport>> getCitiesInCountryByPopulation(DB db, int limit) throws SQLException {
-        String query = baseSelect + ", ROW_NUMBER() OVER (PARTITION BY Country ORDER BY city.Population DESC) AS country_rank" +
-                baseFrom + "ORDER BY Country, city.Population DESC";
+        String query = "SELECT city.Name, city.Population, city.District, country.Name AS Country, country.Continent, country.Region, row_number() over (partition by Region order by Population desc) as country_rank " +
+                "FROM city " +
+                "INNER JOIN country ON country.Code=city.CountryCode " +
+                "ORDER BY Region, Population DESC";
         if(limit > 0) query = "SELECT * FROM (" + query + ") AS T WHERE country_rank <= " + limit;
 
         List<ExtendedCityReport> results = parseExtendedCityResults(db, query);
@@ -131,8 +137,10 @@ public class Cities {
     }
 
     public static HashMap<String, List<CityReport>> getCitiesInDistrictByPopulation(DB db, int limit) throws SQLException {
-        String query = baseSelect + ", ROW_NUMBER() OVER (PARTITION BY District ORDER BY city.Population DESC) AS district_rank" +
-                baseFrom + "ORDER BY city.District, city.Population DESC";
+        String query = "SELECT city.Name, city.Population, city.District, country.Name AS Country, country.Continent, country.Region, row_number() over (partition by District order by Population desc) as district_rank " +
+                "FROM city " +
+                "INNER JOIN country ON country.Code=city.CountryCode " +
+                "ORDER BY District, Population DESC";
         if(limit > 0) query = "SELECT * FROM (" + query + ") AS T WHERE district_rank <= " + limit;
 
         List<ExtendedCityReport> results = parseExtendedCityResults(db, query);
@@ -147,16 +155,22 @@ public class Cities {
     }
 
     public static List<CapitalCityReport> getCapitalCitiesByPopulation(DB db, int limit) throws SQLException {
-        String query = baseSelect + baseFrom + baseWhere + "ORDER BY city.Population DESC"; 
+        String query = "SELECT city.Name, city.Population, city.District, country.Name AS Country, country.Continent, country.Region " +
+                "FROM city " +
+                "INNER JOIN country ON country.Code=city.CountryCode " +
+                "WHERE city.ID=country.Capital " +
+                "ORDER BY Population DESC";
         if(limit > 0) query += " LIMIT " + limit;
         
         return new ArrayList<>(parseCapitalCityResults(db, query));
     }
 
     public static HashMap<String, List<CapitalCityReport>> getCapitalCitiesInContinentByPopulation(DB db, int limit) throws SQLException {
-        String query = baseSelect + ", ROW_NUMBER() OVER (PARTITION BY Continent ORDER BY city.Population DESC) AS continent_rank" +
-                baseFrom + baseWhere +
-                "ORDER BY country.Continent, city.Population DESC";
+        String query = "SELECT city.Name, city.Population, city.District, country.Name AS Country, country.Continent, country.Region, row_number() over (partition by Continent order by Population desc) as continent_rank " +
+                "FROM city " +
+                "INNER JOIN country ON country.Code=city.CountryCode " +
+                "WHERE city.ID=country.Capital " +
+                "ORDER BY Continent, Population DESC";
         if(limit > 0) query = "SELECT * FROM (" + query + ") AS T WHERE continent_rank <= " + limit;
 
         List<ExtendedCapitalCityReport> results = parseCapitalCityResults(db, query);
@@ -171,8 +185,10 @@ public class Cities {
     }
 
     public static HashMap<String, List<CapitalCityReport>> getCapitalCitiesInRegionByPopulation(DB db, int limit) throws SQLException {
-        String query = baseSelect + ", ROW_NUMBER() OVER (PARTITION BY country.Region ORDER BY city.Population DESC) AS region_rank " +
-                baseFrom + baseWhere +
+        String query = "SELECT city.Name, city.Population, city.District, country.Name AS Country, country.Continent, country.Region, row_number() over (partition by country.Region order by city.Population desc) as region_rank " +
+                "FROM city " +
+                "INNER JOIN country ON country.Code=city.CountryCode " +
+                "WHERE city.ID=country.Capital " +
                 "ORDER BY country.Region, city.Population DESC";
         if(limit > 0) query = "SELECT * FROM (" + query + ") AS T WHERE region_rank <= " + limit;
 
@@ -189,7 +205,10 @@ public class Cities {
 
     public static HashMap<String, PopulationReport> getPopulationByContinent(DB db) throws SQLException {
         String query = "SELECT country.Continent AS Name, SUM(DISTINCT country.population) AS Population, SUM(city.Population) AS PopulationInCities " +
-                baseFrom + "GROUP BY country.Continent " + "ORDER BY city.Population DESC";
+                "FROM city " +
+                "INNER JOIN country ON country.Code=city.CountryCode " +
+                "GROUP BY country.Continent " +
+                "ORDER BY Population DESC";
 
         List<PopulationReport> results = parsePopulationResults(db, query);
         HashMap<String, PopulationReport> continentMap = new HashMap<>();
@@ -201,7 +220,10 @@ public class Cities {
 
     public static HashMap<String, PopulationReport> getPopulationByRegion(DB db) throws SQLException {
         String query = "SELECT country.Region AS Name, SUM(DISTINCT country.population) AS Population, SUM(city.Population) AS PopulationInCities " +
-                baseFrom + "GROUP BY country.Region " + "ORDER BY city.Population DESC";
+                "FROM city " +
+                "INNER JOIN country ON country.Code=city.CountryCode " +
+                "GROUP BY country.Region " +
+                "ORDER BY Population DESC";
 
         List<PopulationReport> results = parsePopulationResults(db, query);
         HashMap<String, PopulationReport> regionMap = new HashMap<>();
@@ -213,7 +235,10 @@ public class Cities {
 
     public static HashMap<String, PopulationReport> getPopulationByCountry(DB db) throws SQLException {
         String query = "SELECT country.Name AS Name, country.Population AS Population, SUM(city.Population) AS PopulationInCities " +
-                baseFrom + "GROUP BY country.Name " + "ORDER BY city.Population DESC";
+                "FROM city " +
+                "INNER JOIN country ON country.Code=city.CountryCode " +
+                "GROUP BY country.Name " +
+                "ORDER BY Population DESC";
 
         List<PopulationReport> results = parsePopulationResults(db, query);
         HashMap<String, PopulationReport> countryMap = new HashMap<>();

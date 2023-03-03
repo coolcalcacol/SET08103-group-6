@@ -30,128 +30,128 @@ public class App {
 
             // All the countries in the world organised by largest population to smallest.
             System.out.print("1. Computing all countries in the world organised by largest population to smallest");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             List<CountryReport> countries = Countries.getAllCountriesByPopulation(db, -1);
 
 
             // All the countries in a continent organised by largest population to smallest.
             System.out.print("2. Computing all the countries in a continent organised by largest population to smallest");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, List<CountryReport>> countriesInContinent = Countries.getCountriesInContinentByPopulation(db, -1);
 
             // All the countries in a region organised by largest population to smallest.
             System.out.print("3. Computing all the countries in a region organised by largest population to smallest");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, List<CountryReport>> countriesInRegion = Countries.getCountriesInRegionByPopulation(db, -1);
 
             // The top N populated countries in the world where N is provided by the user.
             System.out.print("4. Computing the top " + n + " populated countries in the world");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             List<CountryReport> topNCountries = Countries.getAllCountriesByPopulation(db, n);
 
             // The top N populated countries in a continent where N is provided by the user.
             System.out.print("5. Computing the top " + n + " populated countries in a continent");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, List<CountryReport>> topNCountriesInContinent = Countries.getCountriesInContinentByPopulation(db, n);
 
             // The top N populated countries in a region where N is provided by the user.
             System.out.print("6. Computing the top " + n + " populated countries in a region");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, List<CountryReport>> topNCountriesInRegion = Countries.getCountriesInRegionByPopulation(db, n);
 
             // All the cities in the world organised by largest population to smallest.
             System.out.print("7. Computing all the cities in the world organised by largest population to smallest");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             List<CityReport> cities = Cities.getAllCitiesByPopulation(db, -1);
 
             // All the cities in a continent organised by largest population to smallest.
             System.out.print("8. Computing all the cities in a continent organised by largest population to smallest");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, List<CityReport>> citiesInContinent = Cities.getCitiesInContinentByPopulation(db, -1);
 
             // All the cities in a region organised by largest population to smallest.
             System.out.print("9. Computing all the cities in a region organised by largest population to smallest");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, List<CityReport>> citiesInRegion = Cities.getCitiesInRegionByPopulation(db, -1);
 
             // All the cities in a country organised by largest population to smallest.
             System.out.print("10. Computing all the cities in a country organised by largest population to smallest");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, List<CityReport>> citiesInCountry = Cities.getCitiesInCountryByPopulation(db, -1);
 
             // All the cities in a district organised by largest population to smallest.
             System.out.print("11. Computing all the cities in a district organised by largest population to smallest");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, List<CityReport>> citiesInDistrict = Cities.getCitiesInDistrictByPopulation(db, -1);
 
             // The top N populated cities in the world where N is provided by the user.
             System.out.print("12. Computing the top " + n + " populated cities in the world");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             List<CityReport> topNCities = Cities.getAllCitiesByPopulation(db, n);
 
             // The top N populated cities in a continent where N is provided by the user.
             System.out.print("13. Computing the top " + n + " populated cities in a continent");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, List<CityReport>> topNCitiesInContinent = Cities.getCitiesInContinentByPopulation(db, n);
 
             // The top N populated cities in a region where N is provided by the user.
             System.out.print("14. Computing the top " + n + " populated cities in a region");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, List<CityReport>> topNCitiesInRegion = Cities.getCitiesInRegionByPopulation(db, n);
 
             // The top N populated cities in a country where N is provided by the user.
             System.out.print("15. Computing the top " + n + " populated cities in a country");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, List<CityReport>> topNCitiesInCountry = Cities.getCitiesInCountryByPopulation(db, n);
 
             // The top N populated cities in a district where N is provided by the user.
             System.out.print("16. Computing the top " + n + " populated cities in a district");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, List<CityReport>> topNCitiesInDistrict = Cities.getCitiesInDistrictByPopulation(db, n);
 
             // All the capital cities in the world organised by largest population to smallest.
             System.out.print("17. Computing all the capital cities in the world organised by largest population to smallest");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             List<CapitalCityReport> capitalCities = Cities.getCapitalCitiesByPopulation(db, -1);
 
             // All the capital cities in a continent organised by largest population to smallest.
             System.out.print("18. Computing all the capital cities in a continent organised by largest population to smallest");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, List<CapitalCityReport>> capitalCitiesInContinent = Cities.getCapitalCitiesInContinentByPopulation(db, -1);
 
             // All the capital cities in a region organised by largest population to smallest.
             System.out.print("19. Computing all the capital cities in a region organised by largest population to smallest");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, List<CapitalCityReport>> capitalCitiesInRegion = Cities.getCapitalCitiesInRegionByPopulation(db, -1);
 
             // The top N populated capital cities in the world where N is provided by the user.
             System.out.print("20. Computing the top " + n + " populated capital cities in the world");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             List<CapitalCityReport> topNCapitalCities = Cities.getCapitalCitiesByPopulation(db, n);
 
             // The top N populated capital cities in a continent where N is provided by the user.
             System.out.print("21. Computing the top " + n + " populated capital cities in a continent");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, List<CapitalCityReport>> topNCapitalCitiesInContinent = Cities.getCapitalCitiesInContinentByPopulation(db, n);
 
             // The top N populated capital cities in a region where N is provided by the user.
             System.out.print("22. Computing the top " + n + " populated capital cities in a region");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, List<CapitalCityReport>> topNCapitalCitiesInRegion = Cities.getCapitalCitiesInRegionByPopulation(db, n);
 
             // The population of people, people living in cities, and people not living in cities in each continent.
             System.out.print("23. Computing the population of people, people living in cities, and people not living in cities in each continent");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, PopulationReport> populationInContinent = Cities.getPopulationByContinent(db);
 
             // The population of people, people living in cities, and people not living in cities in each region.
             System.out.print("24. Computing the population of people, people living in cities, and people not living in cities in each region");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, PopulationReport> populationInRegion = Cities.getPopulationByRegion(db);
 
             // The population of people, people living in cities, and people not living in cities in each country.
             System.out.print("25. Computing the population of people, people living in cities, and people not living in cities in each country");
-            printWithDelays();
+            printWithDelays("...\n", 200);
             HashMap<String, PopulationReport> populationInCountry = Cities.getPopulationByCountry(db);
 
             //TODO: Determine what output method we are to use for all reports
@@ -333,14 +333,18 @@ public class App {
 
     }
 
-    private static void printWithDelays() {
-        for (char ch : "...\n".toCharArray()) {
+    private static void wait(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void printWithDelays(String data, int delay) {
+        for (char ch : data.toCharArray()) {
             System.out.print(ch);
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            wait(delay);
         }
     }
 }

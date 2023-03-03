@@ -1,7 +1,7 @@
 # SET08103-group-6
 
-Main Build Status ![GitHub Workflow Status (branch)](https://github.com/coolcalcacol/SET08103-group-6/actions/workflows/CI.yml/badge.svg?branch=main) <br />
-Develop Build Status ![GitHub Workflow Status (branch)](https://github.com/coolcalcacol/SET08103-group-6/actions/workflows/CI.yml/badge.svg?branch=develop) <br />
+Main Build Status ![GitHub Workflow Status (branch)](https://github.com/coolcalcacol/SET08103-group-6/actions/workflows/main.yml/badge.svg?branch=main) <br />
+Develop Build Status ![GitHub Workflow Status (branch)](https://github.com/coolcalcacol/SET08103-group-6/actions/workflows/main.yml/badge.svg?branch=develop) <br />
 
 [//]: # (token needed here)
 [![CodeCov](https://app.codecov.io/gh/coolcalcacol/SET08103-group-6/branch/main/graph/badge.svg)](https://app.codecov.io/gh/coolcalcacol/SET08103-group-6) <br />
