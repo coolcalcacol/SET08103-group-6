@@ -13,16 +13,4 @@ public class CountryReport extends BaseReport {
         this.region = region;
         this.capital = capital;
     }
-
-    @Override
-    public String toString() {
-        return "CountryReport{" +
-                "name='" + name + '\'' +
-                ", population='" + population + '\'' +
-                ", code='" + code + '\'' +
-                ", continent='" + continent + '\'' +
-                ", region='" + region + '\'' +
-                ", capital='" + capital + '\'' +
-                '}';
-    }
 }
