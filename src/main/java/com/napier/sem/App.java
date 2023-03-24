@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+//TODO: Look into making the Cities and Countries class methods all non static
 public class App {
     public static void main(String[] args) {
         // Initiate database Class
