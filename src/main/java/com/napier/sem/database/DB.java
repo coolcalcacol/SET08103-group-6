@@ -23,17 +23,16 @@ public class DB {
             System.out.println("Connected to database");
         } catch (SQLException e) {
             System.out.println("Failed to connect to database");
-            System.out.println(e.getMessage());
         }
     }
 
     public void disconnect() {
-        try {
-            if (connection != null) {
+        if (connection != null) {
+            try {
                 connection.close();
+            } catch (SQLException ex) {
+                System.out.println("Database failed to disconnect");
             }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
         }
     }
 
@@ -46,7 +45,7 @@ public class DB {
             var statement = connection.createStatement();
             return statement.executeQuery(query);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("DB#runQuery failed: " + e.getMessage());
         }
         return null;
     }
