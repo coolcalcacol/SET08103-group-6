@@ -1,6 +1,6 @@
 package com.napier.sem.report;
 
-public class PopulationReport extends BaseReport{
+public class PopulationReport extends BaseReport {
     public String populationInCities;
     public String populationOutCities;
     public PopulationReport(String name, String population, String populationInCities, String populationOutCities) {
