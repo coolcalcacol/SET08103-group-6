@@ -1,13 +1,13 @@
 package com.napier.sem;
 
-import com.napier.sem.database.Cities;
-import com.napier.sem.database.Countries;
-import com.napier.sem.database.CountryLanguage;
-import com.napier.sem.database.DB;
+import com.napier.sem.additions.LanguagesSpoken;
+import com.napier.sem.additions.PopulationCounts;
+import com.napier.sem.database.*;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import com.napier.sem.reports.*;
+import org.junit.jupiter.api.*;
+
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,211 +17,264 @@ public class AppIntegrationTest {
     static void init() {
         db = new DB("localhost", "33060", "world", "root", "group6Pass");
 
-        db.connect();
+        assertTrue(db.connect());
     }
 
     @AfterAll
     static void cleanUp() {
-        db.disconnect();
+       assertTrue(db.disconnect());
     }
 
-    @Test
-    void basicTest() {
-        assertEquals(1, 1);
-    }
-
+    // DB
     @Test
     void getDbConnectionReturnConnection() {
         assertNotNull(db.getConnection());
     }
 
     @Test
-    void testRunQuery() {
+    void testRunQuery() throws SQLException {
         String query = "SELECT * FROM city LIMIT 1";
         assertNotNull(db.runQuery(query));
     }
 
     @Test
-    void testRunQueryWithNull() {
+    void testRunQueryWithException() {
         String query = "SELECT city.ID2 FROM city LIMIT 1";
-        assertNull(db.runQuery(query));
+        assertThrows(SQLException.class, () -> db.runQuery(query));
     }
 
     @Test
     void fakeDbConnection() {
         DB db2 = new DB("localhost", "33061", "world", "root", "group6Pass");
-        db2.connect();
+        assertFalse(db2.connect());
     }
 
     @Test
     void testDisconnectWithoutConnection() {
         DB db2 = new DB("localhost", "33060", "world", "root", "group6Pass");
-        db2.disconnect();
+        assertFalse(db2.disconnect());
+    }
+
+    // Additions
+    @Test
+    void testAdditionsClasses() {
+        new LanguagesSpoken();
+        new PopulationCounts();
+    }
+
+    // LanguagesSpoken
+    @Test
+    void testLanguagesSpokenByCountry() {
+        assertFalse(LanguagesSpoken.getLanguagesSpokenByCountry(db).isEmpty());
+    }
+
+    // PopulationCounts
+    @Test
+    void testPopulationOfWorld() {
+        assertNotNull(PopulationCounts.getPopulationOfWorld(db));
     }
 
     @Test
-    void countriesClassTest() {
-        new Countries();
-    }
-    @Test
-    void testCountriesByPopulation() {
-        Countries.getAllCountriesByPopulation(db, 1);
+    void testPopulationOfContinent() {
+        assertNotNull(PopulationCounts.getPopulationOfContinent(db, "Europe"));
     }
 
     @Test
-    void testCountriesByPopulationWithNoLimit() {
-        Countries.getAllCountriesByPopulation(db, 0);
+    void testPopulationOfRegion() {
+        assertNotNull(PopulationCounts.getPopulationOfRegion(db, "British Islands"));
     }
 
     @Test
-    void testContinentCountriesByPopulation() {
-        Countries.getCountriesInContinentByPopulation(db, 1);
+    void testPopulationOfCountry() {
+        assertNotNull(PopulationCounts.getPopulationOfCountry(db, "United Kingdom"));
     }
 
     @Test
-    void testContinentCountriesByPopulationWithNoLimit() {
-        Countries.getCountriesInContinentByPopulation(db, 0);
+    void testPopulationOfDistrict() {
+        assertNotNull(PopulationCounts.getPopulationOfDistrict(db, "Scotland"));
     }
 
     @Test
-    void testRegionCountriesByPopulation() {
-        Countries.getCountriesInRegionByPopulation(db, 1);
+    void testPopulationOfCity() {
+        assertNotNull(PopulationCounts.getPopulationOfCity(db, "Edinburgh"));
+    }
+
+    // Test Each parseResults() with invalid queries
+
+    @Test
+    void testParseLanguagesSpokenResults() {
+        assertNull(LanguagesSpoken.parseResults(db, "SELECT ID2 FROM city LIMIT 1"));
     }
 
     @Test
-    void testRegionCountriesByPopulationWithNoLimit() {
-        Countries.getCountriesInRegionByPopulation(db, 0);
+    void testParsePopulationCountsResults() {
+        assertNull(PopulationCounts.parseResults(db, "SELECT ID2 FROM city LIMIT 1"));
     }
 
+    // Reports
     @Test
-    void testInvalidQuery() {
-        assertTrue(Countries.parseResults(db, "SELECT * FROM city2").isEmpty());
-    }
-
-    @Test
-    void testCitiesClass() {
+    void testReportsClasses() {
+        new CapitalCities();
         new Cities();
+        new Countries();
+        new Population();
     }
 
-    @Test
-    void testCitiesByPopulation() {
-        Cities.getAllCitiesByPopulation(db, 1);
-    }
-
-    @Test
-    void testCitiesByPopulationWithNoLimit() {
-        Cities.getAllCitiesByPopulation(db, 0);
-    }
-
-    @Test
-    void testCitiesInContinentByPopulation() {
-        Cities.getCitiesInContinentByPopulation(db, 1);
-    }
-
-    @Test
-    void testCitiesInContinentByPopulationWithNoLimit() {
-        Cities.getCitiesInContinentByPopulation(db, 0);
-    }
-
-    @Test
-    void testCitiesInRegionByPopulation() {
-        Cities.getCitiesInRegionByPopulation(db, 1);
-    }
-
-    @Test
-    void testCitiesInRegionByPopulationWithNoLimit() {
-        Cities.getCitiesInRegionByPopulation(db, 0);
-    }
-
-    @Test
-    void testCitiesInCountryByPopulation() {
-        Cities.getCitiesInCountryByPopulation(db, 1);
-    }
-
-    @Test
-    void testCitiesInCountryByPopulationWithNoLimit() {
-        Cities.getCitiesInCountryByPopulation(db, 0);
-    }
-
-    @Test
-    void testCitiesInDistrictByPopulation() {
-        Cities.getCitiesInDistrictByPopulation(db, 1);
-    }
-
-    @Test
-    void testCitiesInDistrictByPopulationWithNoLimit() {
-        Cities.getCitiesInDistrictByPopulation(db, 0);
-    }
-
+    // Capital Cities
     @Test
     void testCapitalCitiesByPopulation() {
-        Cities.getCapitalCitiesByPopulation(db, 1);
+        assertFalse(CapitalCities.getCapitalCitiesByPopulation(db, 1).isEmpty());
     }
 
     @Test
     void testCapitalCitiesByPopulationWithNoLimit() {
-        Cities.getCapitalCitiesByPopulation(db, 0);
+        assertFalse(CapitalCities.getCapitalCitiesByPopulation(db, 0).isEmpty());
     }
 
     @Test
     void testCapitalCitiesInContinentByPopulation() {
-        Cities.getCapitalCitiesInContinentByPopulation(db, 1);
+        assertFalse(CapitalCities.getCapitalCitiesInContinentByPopulation(db, 1).isEmpty());
     }
 
     @Test
     void testCapitalCitiesInContinentByPopulationWithNoLimit() {
-        Cities.getCapitalCitiesInContinentByPopulation(db, 0);
+        assertFalse(CapitalCities.getCapitalCitiesInContinentByPopulation(db, 0).isEmpty());
     }
 
     @Test
     void testCapitalCitiesInRegionByPopulation() {
-        Cities.getCapitalCitiesInRegionByPopulation(db, 1);
+        assertFalse(CapitalCities.getCapitalCitiesInContinentByPopulation(db, 1).isEmpty());
     }
 
     @Test
     void testCapitalCitiesInRegionByPopulationWithNoLimit() {
-        Cities.getCapitalCitiesInRegionByPopulation(db, 0);
+        assertFalse(CapitalCities.getCapitalCitiesInRegionByPopulation(db, 0).isEmpty());
+    }
+
+    // Cities
+    @Test
+    void testCitiesByPopulation() {
+        assertFalse(Cities.getAllCitiesByPopulation(db, 1).isEmpty());
     }
 
     @Test
+    void testCitiesByPopulationWithNoLimit() {
+        assertFalse(Cities.getAllCitiesByPopulation(db, 0).isEmpty());
+    }
+
+    @Test
+    void testCitiesInContinentByPopulation() {
+        assertFalse(Cities.getCitiesInContinentByPopulation(db, 1).isEmpty());
+    }
+
+    @Test
+    void testCitiesInContinentByPopulationWithNoLimit() {
+        assertFalse(Cities.getCitiesInContinentByPopulation(db, 0).isEmpty());
+    }
+
+    @Test
+    void testCitiesInRegionByPopulation() {
+        assertFalse(Cities.getCitiesInRegionByPopulation(db, 1).isEmpty());
+    }
+
+    @Test
+    void testCitiesInRegionByPopulationWithNoLimit() {
+        assertFalse(Cities.getCitiesInRegionByPopulation(db, 0).isEmpty());
+    }
+
+    @Test
+    void testCitiesInCountryByPopulation() {
+        assertFalse(Cities.getCitiesInCountryByPopulation(db, 1).isEmpty());
+    }
+
+    @Test
+    void testCitiesInCountryByPopulationWithNoLimit() {
+        assertFalse(Cities.getCitiesInCountryByPopulation(db, 0).isEmpty());
+    }
+
+    @Test
+    void testCitiesInDistrictByPopulation() {
+        assertFalse(Cities.getCitiesInCountryByPopulation(db, 1).isEmpty());
+    }
+
+    @Test
+    void testCitiesInDistrictByPopulationWithNoLimit() {
+        assertFalse(Cities.getCitiesInCountryByPopulation(db, 0).isEmpty());
+    }
+
+
+    // Countries
+    @Test
+    void testCountriesByPopulation() {
+        assertFalse(Countries.getAllCountriesByPopulation(db, 1).isEmpty());
+    }
+
+    @Test
+    void testCountriesByPopulationWithNoLimit() {
+        assertFalse(Countries.getAllCountriesByPopulation(db, 0).isEmpty());
+    }
+
+    @Test
+    void testContinentCountriesByPopulation() {
+        assertFalse(Countries.getCountriesInContinentByPopulation(db, 1).isEmpty());
+    }
+
+    @Test
+    void testContinentCountriesByPopulationWithNoLimit() {
+        assertFalse(Countries.getCountriesInContinentByPopulation(db, 0).isEmpty());
+    }
+
+    @Test
+    void testRegionCountriesByPopulation() {
+        assertFalse(Countries.getCountriesInRegionByPopulation(db, 1).isEmpty());
+    }
+
+    @Test
+    void testRegionCountriesByPopulationWithNoLimit() {
+        assertFalse(Countries.getCountriesInRegionByPopulation(db, 0).isEmpty());
+    }
+
+    // Population
+    @Test
     void testCitiesPopulationByContinent() {
-        Cities.getPopulationByContinent(db);
+        assertFalse(Population.getPopulationByContinent(db).isEmpty());
     }
 
     @Test
     void testCitiesPopulationByRegion() {
-        Cities.getPopulationByRegion(db);
+        assertFalse(Population.getPopulationByRegion(db).isEmpty());
     }
 
     @Test
     void testCitiesPopulationByCountry() {
-        Cities.getPopulationByCountry(db);
+        assertFalse(Population.getPopulationByCountry(db).isEmpty());
+    }
+
+
+    // Test Each parseResults() with invalid queries
+    @Test
+    void testParseCapitalCityResults() {
+        assertNull(CapitalCities.parseResults(db, "SELECT ID2 FROM city LIMIT 1"));
     }
 
     @Test
     void testParseExtendedCityResults() {
-        assertTrue(Cities.parseExtendedCityResults(db, "SELECT ID2 FROM city LIMIT 1").isEmpty());
+        assertNull(Cities.parseResults(db, "SELECT ID2 FROM city LIMIT 1"));
     }
 
     @Test
-    void testParseCapitalCityResults() {
-        assertTrue(Cities.parseCapitalCityResults(db, "SELECT ID2 FROM city LIMIT 1").isEmpty());
+    void testParseCountryResults() {
+        assertNull(Countries.parseResults(db, "SELECT ID2 FROM country LIMIT 1"));
     }
 
     @Test
-    void testPopulationResults() {
-        assertTrue(Cities.parsePopulationResults(db, "SELECT ID2 FROM city LIMIT 1").isEmpty());
+    void testParsePopulationResults() {
+        assertNull(Population.parseResults(db, "SELECT ID2 FROM city LIMIT 1"));
     }
 
+    // App
     @Test
-    void testCountryLanguageClass() {
-        new CountryLanguage();
-    }
-
-
-    @Test
-    void testMainApp() {
-        // TODO: MAIN METHOD NOT BEING TESTED DUE TO IMMINENT REFACTOR OF DRIVER CODE. TESTS WILL BE WRITTEN AFTER REFACTOR.
-        // App.main("0");
+    void testApp() {
+        App.runReports(db, 1, 0);
     }
 }

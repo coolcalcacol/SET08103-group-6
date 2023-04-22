@@ -8,12 +8,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AppUnitTest {
-
-    @Test
-    void basicTest() {
-        assertEquals(1, 1);
-    }
-
     // Abstract base report
     @Test
     void baseReportTest() {
@@ -50,6 +44,13 @@ public class AppUnitTest {
         assertEquals("continent", report.continent);
         assertEquals("region", report.region);
         assertEquals("capital", report.capital);
+    }
+
+    @Test
+    void languageReportTest() {
+        LanguageReport report = new LanguageReport("name", "population");
+        assertEquals("name", report.name);
+        assertEquals("population", report.population);
     }
 
     @Test
