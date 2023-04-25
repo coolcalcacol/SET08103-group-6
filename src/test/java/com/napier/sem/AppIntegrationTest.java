@@ -18,11 +18,15 @@ public class AppIntegrationTest {
         db = new DB("localhost", "33060", "world", "root", "group6Pass");
 
         assertTrue(db.connect());
+
+        Helpers.clearReports();
     }
 
     @AfterAll
     static void cleanUp() {
        assertTrue(db.disconnect());
+
+        Helpers.clearReports();
     }
 
     // DB
