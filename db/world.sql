@@ -5409,7 +5409,7 @@ INSERT INTO `countrylanguage` VALUES ('ZMB','Chewa','F',5.7);
 INSERT INTO `countrylanguage` VALUES ('ZMB','Lozi','F',6.4);
 INSERT INTO `countrylanguage` VALUES ('ZMB','Nsenga','F',4.3);
 INSERT INTO `countrylanguage` VALUES ('ZMB','Nyanja','F',7.8);
-INSERT INTO `countrylanguage` VALUES ('ZMB','Tongan','F',11.0);
+INSERT INTO `countrylanguage` VALUES ('ZMB','Tonga','F',11.0);
 INSERT INTO `countrylanguage` VALUES ('ZWE','English','T',2.2);
 INSERT INTO `countrylanguage` VALUES ('ZWE','Ndebele','F',16.2);
 INSERT INTO `countrylanguage` VALUES ('ZWE','Nyanja','F',2.2);

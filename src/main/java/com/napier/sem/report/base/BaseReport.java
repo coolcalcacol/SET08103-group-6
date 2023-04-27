@@ -1,6 +1,8 @@
-package com.napier.sem.report;
+package com.napier.sem.report.base;
 
-public abstract class BaseReport {
+import com.napier.sem.report.interfaces.IReport;
+
+public abstract class BaseReport implements IReport {
     public String name;
     public String population;
 

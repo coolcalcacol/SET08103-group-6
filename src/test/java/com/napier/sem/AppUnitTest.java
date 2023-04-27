@@ -1,23 +1,29 @@
 package com.napier.sem;
 
 import com.napier.sem.report.*;
+import com.napier.sem.report.base.BaseReport;
 import com.napier.sem.report.extended.ExtendedCapitalCityReport;
 import com.napier.sem.report.extended.ExtendedCityReport;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AppUnitTest {
-
-    @Test
-    void basicTest() {
-        assertEquals(1, 1);
-    }
-
     // Abstract base report
     @Test
     void baseReportTest() {
-        BaseReport report = new BaseReport("name", "population") {};
+        BaseReport report = new BaseReport("name", "population") {
+            @Override
+            public String getHeader() {
+                return null;
+            }
+
+            @Override
+            public String getRow() {
+                return null;
+            }
+        };
         assertEquals("name", report.name);
         assertEquals("population", report.population);
     }
@@ -53,6 +59,13 @@ public class AppUnitTest {
     }
 
     @Test
+    void languageReportTest() {
+        LanguageReport report = new LanguageReport("name", "population");
+        assertEquals("name", report.name);
+        assertEquals("population", report.population);
+    }
+
+    @Test
     void populationReportTest() {
         PopulationReport report = new PopulationReport("name", "population", "populationInCities", "populationOutCities");
         assertEquals("name", report.name);
@@ -81,5 +94,21 @@ public class AppUnitTest {
         assertEquals("country", report.country);
         assertEquals("continent", report.continent);
         assertEquals("region", report.region);
+    }
+
+    @Test
+    void helpersTest() {
+        Helpers helpers = new Helpers();
+        assertTrue(helpers instanceof Helpers);
+    }
+    @Test
+    void helperPrintWithDelaysTest() {
+        Helpers.printWithDelays(1);
+    }
+
+    @Test
+    void helperPrintWithDelaysTestCatch() {
+        Thread.currentThread().interrupt();
+        Helpers.printWithDelays(1000);
     }
 }
